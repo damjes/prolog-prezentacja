@@ -1,6 +1,7 @@
 \documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{polski}
+\usepackage{url}
 \author{matma6 (tech. Michał Gabor)}
 \title{Skrypt do wykładu o Prologu (Paradygmaty)}
 \begin{document}
@@ -9,7 +10,7 @@ Przypisy oznaczają nieścisłości bądź dodatkowe informacje – ich zrozumie
 \section{Jak uruchomić SWI-Prolog}
 Należy zainstalować paczkę z repozytorium lub ze strony. Po instalacji:
 w Windowsie po kliknięciu na ikonę pojawi się REPL
-w innych systemach wywołujemy w terminalu swipl
+w innych systemach wywołujemy w terminalu \verb+swipl+.
 \section{Paradygmat logiczny}
 Imperatywnie mówimy o liście instrukcji do wykonania. Weźmy dla przykładu \verb!x += 1! z C. To oznacza wykonanie trzech operacji: wzięcia wartości x, dodania 1 i zapamiętania wyniku pod zmienną x. Innym przykładem może być powszechna w starszych językach instrukcja \verb!goto!. Powoduje ona przeskok do innego miejsca programu. Podobnym zachowaniem są pętle – ciągi instrukcji wykonywane wielokrotnie.
 
@@ -23,8 +24,73 @@ W Prologu zapis w kodzie postaci np. \verb+ro(a, b).+ nazywamy faktem. Możemy t
 \section{Komentarze, atomy i zmienne}
 Bardzo ważna w Prologu jest wielkość pierwszej litery. Mała litera oznacza atomy. Są to niepodzielne\footnote{Prolog pozwala rozbić atom na pojedyncze znaki, lecz nie jest to rozbicie semantyczne.} symbole, reprezentujące konkretne obiekty, np. mojego psa, Wojtka (konkretną osobę) czy gatunek świń (niemniej jest to konkretny gatunek). Niepodzielność oznacza niemożliwość rozdzielenia, np. OCamlową listę \verb![1;2;3]! możemy rozbić na głowę i ogon, zaś listę pustą już nie.
 
-Duża pierwsza litera oznacza zmienne, czyli „jakieś” obiekty, np.: jakiś pies, dowolna osoba, jakaś świnia, dowolny gatunek. Przykładowo x w \verb!let f x = (+) List.length x;;! oznacza dowolną listę.
+Duża pierwsza litera oznacza zmienne, czyli „jakieś” obiekty, np.: jakiś pies, dowolna osoba, jakaś świnia, dowolny gatunek. Przykładowo x w OCamlowym \verb!let f x = (+) List.length x;;! oznacza dowolną listę.
 
 \section{Źródło a REPL}
-Bardzo ważne jest zrozumienie różnicy pomiędzy kodem źródłowym, tj. plikiem z rozszerzeniem \verb+.pl+\footnote{Czasami stosuje się .pro dla odróżnienia od skryptów Perla}. To, co zostaje podane
+Bardzo ważne jest zrozumienie różnicy pomiędzy kodem źródłowym, tj. plikiem z rozszerzeniem \verb+.pl+\footnote{Czasami stosuje się .pro dla odróżnienia od skryptów Perla}, a tym, co zostało podane w konsoli (polecenie \verb!swipl! lub ikona sowy w Windows). Dla przykładu, \verb!lubi(jan, koty).! w kodzie źródłowym oznacza stwierdzenie faktu: Jan lubi koty. Jeżeli napiszemy to w REPLu\footnote{Skrót od Read-Evaluate-Print Loop. W OCamlu możemy wywołać REPLa poprzez wpisanie polecenia ocaml w terminalu.}, będzie to oznaczało pytanie: CZY Jan lubi koty, więc Prolog nam spróbuje na to pytanie odpowiedzieć.
+
+Chcąc wywoływać cele (np. pytać) w kodzie źródłowym, poprzedzamy pytanie znakami \verb+:-+\footnote{Należy pamiętać o tym, że Prolog będzie wtedy wypisywał mniej informacji, np. nie powie, jakie wartości przypisano zmiennym. Dodatkowo, niepowodzenie w takiej sytuacji oznacza dla Prologu błąd.}. Jeżeli chcemy dopisać w terminalu nowe fakty, najprościej jest napisać \verb+[user].+, a gdy skończymy je podawać, nacisnąć ctrl+D.
+
+\section{Zmienne}
+Próba przypisania nowej wartości do zmiennej musi zakończyć się niepowodzeniem. Ale co dokładnie się stało? Otóż Prolog powiązał zmienną X z atomem a. Potem próbuje dopasować X do b. X jest równe a, więc Prolog próbuje dopasować atom a do atomu b. Dwa różne atomy nigdy nie są ze sobą równe, więc zostaje ogłoszone niepowodzenie. Nota bene: niepowodzenie jest czymś innym niż błąd!
+
+W następnym przykładzie nie wiemy nic o X ani o Y. Niemniej Prolog stwierdził, że X i Y to to samo. Więc wiążąc X z wartością 2, jednocześnie wiążemy Y z 2. W wielu innych językach, gdzie zmienna jest skrótem do wartości, nie możemy powiązać X i Y, bo ani X ani wartości nie mają.
+
+Prolog dokonuje uzgadniania zmiennych, przez co, w każdym przypisaniu dochodzi do dopasowania do wzorca.
+
+Ponieważ zmienne w Prologu są jednokrotnego przypisania, to nie muszą mieć ściśle przypisanej wartości. Dlatego zmienne mogą być częścią danych. Możemy np. mieć parę, w której pierwszy element jest ustalony, a drugi dowolny. Innym przykładem jest lista trzech dowolnych elementów. Możemy oczywiście powiązać te elementy z wartościami, ale gdy raz zwiążemy jakąś zmienną z wartością (choćby częściowo), to nie będziemy mogli tego zmienić. Innym przykładem jest złączenie listy określonej i dowolnej. Wynik to lista, której trzy pierwsze elementy znamy.
+
+Prolog nie oblicza wartości wyrażeń, przez co \verb!2+2! to nie 4. To pierwsze to wyrażenie: mamy tam znak dodawania łączący dwie liczby. Taki złożony twór nie jest liczbą 4. Jednak żeby dokonać ewaluacji możemy posłużyć się \verb+is+.
+
+\section{Listy}
+Listy w Prologu zdefiniowano ,,tradycyjnie''. Chcąc zdefiniować długość możemy napisać fakt i regułę. Reguła zawiera \verb+:-+, co oznacza jeżeli. To, co stoi po lewej, nazywamy głową. Po prawej od tego znaku mamy ciało reguły złożone z kilku zapisów. Są one oddzielone przecinkami, co oznacza spójnik ,,i''. Np. długość ogona to N i N1 to N + 1.
+
+Możemy też tego dokonać optymalnie - rekursją ogonową. Długość listy pustej to wartość zgromadzona w akumulatorze. Faktem też jest, że długość całej listy, to długość ogona \verb+T+ aktualnie rozpatrywanego kawałka\verb+[H|T]+, przy czym muszę dodać 1 do akumulatora. Warto by także powiedzieć, że długość listy, to długość listy dla akumulatora równego 0.
+
+Złączenie list wygląda podobnie. Tutaj możemy jednak skorzystać z dowolnego kierunku obliczeń (nie ma \verb+is+). Możemy zapytać, co z czym należy połączyć, by otrzymać określoną listę. Uzyskamy 4 odpowiedzi. Prolog wyświetla pierwszą odpowiedź, a po naciśnięciu spacji szuka następnej. I tak do momentu niepowodzenia lub znalezienia ostatniego rozwiązania.
+
+\section{Listy różnicowe}
+Tutaj mamy ciekawy przykład zmiennej jako danej. Z jednej strony nie wiemy, co odejmujemy od listy, więc mamy wolną zmienną, z drugiej natomiast wiemy, ile i jakich elementów ma listy. Tak więc pomimo wolnych zmiennych o obiekcie wiemy wszystko.
+
+Możemy interpretować odejmowanie ogona jako wskaźnik nań. Mając przypisanie \verb+X-Y = _-[a]+ ukonkretniamy \verb+Y = [a]+. Ale skoro \verb+X = [1, 2 | Y]+, to mamy \verb+X = [1, 2, a]+. Dzięki takiej konstrukcji udało nam się dostać do ogona listy.
+
+Więc jeżeli \verb+Y+ w wyrażeniu \verb+X-Y+ jest dowolne, to uzgodnienie dowolnej zmiennej z czymkolwiek może dokonać się w czasie stałym. Zatem w czasie stałym elementy z listy \verb+Y+ pojawiają się na liście \verb+X+.
+
+\section{Ciąg Fibonacciego}
+Modyfikujemy definicję poprzez dodanie wykrzyknika i \verb+asserta/1+\footnote{Ten zapis oznacza jednoargumentowy predykat.}.
+
+Po wyświetleniu pierwszej odpowiedzi Prolog oczekuje reakcji. Spacja spowoduje tzw. nawrót i znalezienie innego rozwiązania. My chcemy zapobiec nawrotom, więc mówimy \verb+!+, co oznacza: znalazłeś już dobre rozwiązanie, nie szukaj więcej. Ten mechanizm nazywa się odcięciem.
+
+Predykat \verb+asserta/1+ powoduje dodanie faktu do bazy. \verb+asserta/1+ dodaje na początek, zaś \verb+assertz/1+ na koniec (łatwo skojarzyć z alfabetem). Chcemy dodać fakt przed regułę, dlatego \verb+asserta/1+. Gdybyśmy użyli \verb+assertz/1+, reguła wykonałaby się najpierw, a odcięcie spowodowałoby, że nigdy nie dojdziemy do faktu na końcu.
+
+\section{Zagadka}
+Możemy traktować wszystkich rycerzy tak samo, zatem umówmy się, że zmienne oznaczą ludzi, zaś atomy, kim jest dany człowiek. Chcielibyśmy także powiedzieć ,,A jest rycerzem''. Zgodnie z umową jest to \verb+A = rycerz+. Nie mniej, jeżeli B skłamał, że A jest rycerzem, to nie możemy zrobić takiego przypisania. W tym celu mówimy, że rycerz jest rycerzem, a łotr łotrem.
+
+Teraz możemy stosować wygodną składnię, np: \verb+powiedzial(A, lotr(B)).+. I jeżeli rycerz coś powiedział, to to jest prawda. Jeżeli coś zostało powiedziane przez łotra, to musimy rozpatrzeć zdanie przeciwne.\footnote{Niniejszy program działa tylko dla prostych przypadków. Bardziej uniwersalny i złożony program dostępny jest na stronie \url{http://www.im.pwr.wroc.pl/~przemko/prolog/blog-3/files/50c0703f5247aa2d62079a08c111bb13-0.html}}
+
+\section{Więzy}
+Przed skorzystaniem z więzów potrzebujemy biblioteki:\\\verb+:- usemodule(library(clpfd)).+.
+
+W zagadce na początku ustalamy listę zmiennych, potem mówimy, że te wszystkie zmienne są z przedziału 0..9. Następnie mówimy, że zmienne są różne. Potem określamy stosunki arytmetyczne między zmiennymi w stylu:
+\begin{equation}
+\overline{xyz} = 100x+10y+z
+\end{equation}
+czyli określamy wartość liczby złożonej z cyfr $x$, $y$ i $z$. Po stwierdzeniu, że początkowe cyfry są różne od 0, możemy zadać pytanie. Po predykacie puzzle każemy określić wartości zmiennych zgodnie z ograniczeniami.
+
+W sudoku mamy predykat, który dostaje listę wierszy. Każdy wiersz to lista 9 liczb, bądź wieloznaczników \verb+_+, oznaczających puste miejsca w sudoku.
+
+Najpierw stwierdzamy istnienie 9 wierszy. Potem operacją podobną do OCamlowego \verb+List.map+ stosujemy predykat \verb+length_/2+. Innymi słowy, dla każdego wiersza W wywołujemy \verb+length_(9, W)+ czyli \verb+length(W, 9)+, przez co każdy wiersz ma 9 zmiennych (cyfr, bądź zmiennych wolnych). Predykat \verb+append/2+ powoduje spłaszczenie listy. Podobnie jak OCamlowy \verb+List.flatten+ zamienia listę list zmiennych na listę zmiennych. Ta lista jest nam potrzebna do nałożenia więzów na sudoku - dowolna zmienna musi być liczbą z przedziału 0..9. Potem mówimy, że w każdym wierszu cyfry się różnią. Następnie po nałożeniu transpozycji możemy powiedzieć, że w kolumnie wszystkie cyfry również się różnią. Potem tworzymy zmienne dla wierszy: od A do I.
+
+Chcąc powiedzieć, że w każdym kwadracie cyfry też mają być różne, możemy wziąć po trzy zmienne z każdym z trzech wierszy. Ustanawiamy więzy. Potem to samo robimy dla ogonów. Oczywiście poprawną sytuacją jest, kiedy ogony są puste, stąd fakt \verb+blocks([], [], []).+.
+
+Ładujemy nasze reguły. \verb+[sudoku].+ oznacza plik z bieżącego katalogu o nazwie \verb+sudoku.pl+. Tworzymy zagadkę za pomocą reguł opisanych wcześniej. Nadajemy też numer 1.
+
+W pytaniu przywołujemy zagadkę numer 1, nakładamy więzy i mówimy: wypisz wszystkie wiersze (ze znakami nowej linii pomiędzy).
+
+\section{Funkcje anonimowe}
+Chciałem zaimplementować funkcje anonimowe, żeby móc napisać w Prologu coś na kształt OCamlowego \verb!fun x -> x+1!. W tym celu chcę napisać coś takiego: \verb!\(X->Y, Y is X+1)!, gdzie pierwszy element pary to $dana\rightarrow wynik$, zaś drugi, to ciało, czyli kawałek kodu w Prologu.
+
+Oczywiście mogę też zrobić tak\footnote{Nazwa funkcji pochodzi z języka Lisp i oznacza branie ogona (ściślej to drugiego elementu pary kropkowej, np. listy niepustej).} \verb!Cdr = \([_|T] -> T, true).! Wtedy z listy wyciągam ogon. Wszystko obsługuje dopasowanie wzorca, więc muszę dać coś na kształt instrukcji pustej, która zwróci prawdę. Dlatego napisałem \verb+true+.
+
+Podstawianie jest proste: trzeba uzgodnić argument z wejściem, wynik z wyjściem i wykonać predykat P. Jednakże wyobraźmy sobie, że chcemy zrobić coś na kszałt OCamlowego \verb+List.map+, wtedy na pierwszym elemencie X zostanie związane z jego wartością, więc np. \verb+[1, 2, 3]+, wtedy \verb+X = 1+, przechodzimy do elementu 2, ale wtedy mamy uzgodnić \verb+X = 2+, ale skoro \verb+X = 1+, to \verb+1 = 2+ zawiedzie. Wniosek: do funkcji można podstawić jeden argument. Przydałoby się jakoś ją skopiować, na szczęście do tego mamy wbudowany predykat \verb+copy_term/2+.
 \end{document}
