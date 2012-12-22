@@ -24,7 +24,7 @@ W Prologu zapis w kodzie postaci np. \verb+ro(a, b).+ nazywamy faktem. Możemy t
 \section{Komentarze, atomy i zmienne}
 Bardzo ważna w Prologu jest wielkość pierwszej litery. Mała litera oznacza atomy. Są to niepodzielne\footnote{Prolog pozwala rozbić atom na pojedyncze znaki, lecz nie jest to rozbicie semantyczne.} symbole, reprezentujące konkretne obiekty, np. mojego psa, Wojtka (konkretną osobę) czy gatunek świń (niemniej jest to konkretny gatunek). Niepodzielność oznacza niemożliwość rozdzielenia, np. OCamlową listę \verb![1;2;3]! możemy rozbić na głowę i ogon, zaś listę pustą już nie.
 
-Duża pierwsza litera oznacza zmienne, czyli „jakieś” obiekty, np.: jakiś pies, dowolna osoba, jakaś świnia, dowolny gatunek. Przykładowo x w OCamlowym \verb!let f x = (+) List.length x;;! oznacza dowolną listę.
+Duża pierwsza litera oznacza zmienne, czyli „jakieś” obiekty, np.: jakiś pies, dowolna osoba, jakaś świnia, dowolny gatunek. Przykładowo x w OCamlowym \verb!let f x = (+) (List.length x);;! oznacza dowolną listę.
 
 \section{Źródło a REPL}
 Bardzo ważne jest zrozumienie różnicy pomiędzy kodem źródłowym, tj. plikiem z rozszerzeniem \verb+.pl+\footnote{Czasami stosuje się .pro dla odróżnienia od skryptów Perla}, a tym, co zostało podane w konsoli (polecenie \verb!swipl! lub ikona sowy w Windows). Dla przykładu, \verb!lubi(jan, koty).! w kodzie źródłowym oznacza stwierdzenie faktu: Jan lubi koty. Jeżeli napiszemy to w REPLu\footnote{Skrót od Read-Evaluate-Print Loop. W OCamlu możemy wywołać REPLa poprzez wpisanie polecenia ocaml w terminalu.}, będzie to oznaczało pytanie: CZY Jan lubi koty, więc Prolog nam spróbuje na to pytanie odpowiedzieć.
@@ -34,7 +34,7 @@ Chcąc wywoływać cele (np. pytać) w kodzie źródłowym, poprzedzamy pytanie 
 \section{Zmienne}
 Próba przypisania nowej wartości do zmiennej musi zakończyć się niepowodzeniem. Ale co dokładnie się stało? Otóż Prolog powiązał zmienną X z atomem a. Potem próbuje dopasować X do b. X jest równe a, więc Prolog próbuje dopasować atom a do atomu b. Dwa różne atomy nigdy nie są ze sobą równe, więc zostaje ogłoszone niepowodzenie. Nota bene: niepowodzenie jest czymś innym niż błąd!
 
-W następnym przykładzie nie wiemy nic o X ani o Y. Niemniej Prolog stwierdził, że X i Y to to samo. Więc wiążąc X z wartością 2, jednocześnie wiążemy Y z 2. W wielu innych językach, gdzie zmienna jest skrótem do wartości, nie możemy powiązać X i Y, bo ani X ani wartości nie mają.
+W następnym przykładzie nie wiemy nic o X ani o Y. Niemniej Prolog stwierdził, że X i Y to to samo. Więc wiążąc X z wartością 2, jednocześnie wiążemy Y z 2. W wielu innych językach, gdzie zmienna jest skrótem do wartości, nie możemy powiązać X i Y, bo ani X ani Y wartości nie mają.
 
 Prolog dokonuje uzgadniania zmiennych, przez co, w każdym przypisaniu dochodzi do dopasowania do wzorca.
 
@@ -79,7 +79,7 @@ czyli określamy wartość liczby złożonej z cyfr $x$, $y$ i $z$. Po stwierdze
 
 W sudoku mamy predykat, który dostaje listę wierszy. Każdy wiersz to lista 9 liczb, bądź wieloznaczników \verb+_+, oznaczających puste miejsca w sudoku.
 
-Najpierw stwierdzamy istnienie 9 wierszy. Potem operacją podobną do OCamlowego \verb+List.map+ stosujemy predykat \verb+length_/2+. Innymi słowy, dla każdego wiersza W wywołujemy \verb+length_(9, W)+ czyli \verb+length(W, 9)+, przez co każdy wiersz ma 9 zmiennych (cyfr, bądź zmiennych wolnych). Predykat \verb+append/2+ powoduje spłaszczenie listy. Podobnie jak OCamlowy \verb+List.flatten+ zamienia listę list zmiennych na listę zmiennych. Ta lista jest nam potrzebna do nałożenia więzów na sudoku - dowolna zmienna musi być liczbą z przedziału 0..9. Potem mówimy, że w każdym wierszu cyfry się różnią. Następnie po nałożeniu transpozycji możemy powiedzieć, że w kolumnie wszystkie cyfry również się różnią. Potem tworzymy zmienne dla wierszy: od A do I.
+Najpierw stwierdzamy istnienie 9 wierszy. Potem operacją podobną do OCamlowego \verb+List.map+ stosujemy predykat \verb+length_/2+. Innymi słowy, dla każdego wiersza W wywołujemy \verb+length_(9, W)+ czyli \verb+length(W, 9)+, przez co każdy wiersz ma 9 zmiennych (cyfr, bądź zmiennych wolnych). Predykat \verb+append/2+ powoduje spłaszczenie listy. Podobnie jak OCamlowy \verb+List.flatten+ zamienia listę list zmiennych na listę zmiennych. Ta lista jest nam potrzebna do nałożenia więzów na sudoku - dowolna zmienna musi być liczbą z przedziału 1..9. Potem mówimy, że w każdym wierszu cyfry się różnią. Następnie po nałożeniu transpozycji możemy powiedzieć, że w kolumnie wszystkie cyfry również się różnią. Potem tworzymy zmienne dla wierszy: od A do I.
 
 Chcąc powiedzieć, że w każdym kwadracie cyfry też mają być różne, możemy wziąć po trzy zmienne z każdym z trzech wierszy. Ustanawiamy więzy. Potem to samo robimy dla ogonów. Oczywiście poprawną sytuacją jest, kiedy ogony są puste, stąd fakt \verb+blocks([], [], []).+.
 
