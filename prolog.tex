@@ -1,0 +1,394 @@
+\documentclass[blue]{beamer}
+\usetheme{Warsaw}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{listings}
+%\usepackage{color}
+\author{matma6 (tech. Michał Gabor)}
+\title{Programowanie logiczne w Prologu}
+\lstset{language=Prolog}
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+\begin{frame}
+\tableofcontents
+\end{frame}
+\section{Co to jest Prolog}
+\subsection{Fakty}
+\begin{frame}{Fakty}
+\begin{itemize}
+\item Francja, rok 1972
+\item Alain Colmerauer i Philippe Roussel
+\item Programowanie w logice (PROgrammation en LOGique)
+\end{itemize}
+\end{frame}
+\subsection{Implementacje i instalacja}
+\begin{frame}{Implementacje}
+Istnieje wiele implementacji Prologu.
+\begin{itemize}
+\item SWI Prolog
+\item YAP
+\item GNU Prolog
+\item SICStus Prolog
+\item Visual Prolog
+\item ...
+\end{itemize}
+\end{frame}
+\begin{frame}{SWI Prolog}
+Używam SWI Prolog.
+
+Cechy:
+\begin{itemize}
+\item LGPL/GPL
+\item CLP
+\item XPCE
+\item Serwer WWW
+\item Doskonała dokumentacja
+\item ...
+\end{itemize}
+\end{frame}
+\begin{frame}{Instalacja}
+\begin{description}
+\item[Arch Linux] posiada SWI Prolog w AURze (np. yaourt -S swi-prolog)
+\item[Debian] ma SWI Prolog w repozytorium (np. sudo apt-get install swi-prolog)
+\item[MacOS X] paczka jest do pobrania ze strony http://swi-prolog.org/
+\item[Windows] paczka jest do pobrania ze strony http://swi-prolog.org/
+\end{description}
+
+W GNU/Linuksie pojawia się wtedy polecenie swipl.
+\end{frame}
+\subsection{Paradygmat logiczny}
+\begin{frame}{Paradygmat logiczny}
+\begin{description}
+\item[Imperatywnie] wykonujemy instrukcje
+\item[Funkcyjnie] obliczamy wartość funkcji
+\item[Logicznie] pytamy o relacje
+\end{description}
+\end{frame}
+\begin{frame}{Funkcja a relacja}
+\begin{center}
+\includegraphics[height=0.4\textheight]{relacja.png}
+\end{center}
+Relacja $\rho$ to nie funkcja:
+\begin{description}
+\item[$\rho(a) = e$] ok...
+\item[$\rho(b) = ?$] dwie wartości
+\item[$\rho(c) = ?$] brak wartości
+\end{description}
+\end{frame}
+\begin{frame}[fragile]{W Prologu}
+\begin{lstlisting}
+ro(a, e).
+ro(b, e).
+ro(b, d).
+\end{lstlisting}
+\end{frame}
+\begin{frame}[fragile]{Czas na przykład z życia - sinus :)}
+\lstinputlisting{zrodla/lubi.pl}
+\end{frame}
+\section{Podstawy}
+\subsection{Składnia}
+\begin{frame}[fragile]{Komentarze, atomy i zmienne}
+\begin{description}
+\item[Komentarz] zaczyna się od \%.
+\item[Atom] zaczyna się z małej litery.
+\item[Zmienna] zaczyna się z dużej litery.\
+\end{description}
+\begin{lstlisting}
+%atomy
+jan
+kot
+pies
+
+%Zmienne
+Lista
+X
+N1
+ODP
+\end{lstlisting}
+\end{frame}
+\begin{frame}[fragile]{Źródło to nie REPL}
+\begin{columns}
+\begin{column}{.5\linewidth}
+Źródło to baza faktów!
+
+\lstinputlisting{zrodla/lubi.pl}
+\end{column}
+\begin{column}{.5\linewidth}
+REPL służy do zadawania pytań!
+
+\begin{lstlisting}
+lubi(jan, koty).
+lubi(jan, Co).
+lubi(X, Y).
+\end{lstlisting}
+\end{column}
+\end{columns}
+Zarówno fakty, jak i pytania kończymy kropką.
+\end{frame}
+\subsection{Zmienne}
+\begin{frame}[fragile]{Zmienne}
+Prolog ma zmienne jednokrotnego przypisania:
+\begin{lstlisting}
+?- X = a.
+X = a.
+
+?- X = a, X = b.
+false.
+
+?- X = Y, X = 2.
+X = Y, Y = 2.
+\end{lstlisting}
+\end{frame}
+\begin{frame}[fragile]{Zmienne związane i wolne}
+Jeśli zmienna ma wartość to jest związana (ang. grounded).
+
+Zmienne mogące przyjąć różne wartości to zmienne wolne.
+\begin{lstlisting}
+?- X = 2, ground(X).
+X = 2.
+
+?- X = 2, ground(Y).
+false.
+\end{lstlisting}
+\end{frame}
+\begin{frame}[fragile]{Dopasowanie do wzorca}
+Prolog wszędzie automatycznie dopasowuje się do wzorca..
+\begin{lstlisting}
+?- X = (a, b).
+X = (a, b).
+
+?- (X, Y) = (a, b).
+X = a,
+Y = b.
+
+?- [_|T] = [a,b,c].
+T = [b, c].
+\end{lstlisting}
+\_ to wieloznacznik
+
+[X\textbar Y] to podział listy na głowę i ogon (OCamlowe H::T)
+\end{frame}
+\begin{frame}[fragile]{Zmienne a dane}
+W Prologu zmienna może być częścią danej.
+\begin{lstlisting}
+?- (a, X) = (Y, b).
+X = b,
+Y = a.
+
+?- length(X, 3).
+X = [_G1106, _G1109, _G1112].
+
+?- append([a, b, c], X, Y).
+Y = [a, b, c | X].
+\end{lstlisting}
+\end{frame}
+\subsection{Liczby i wyrażenia}
+\begin{frame}[fragile]{2+2 to nie 4}
+Prolog nie dokonuje ewaluacji automatycznie.
+
+2+2 to wyrażenie
+
+4 to liczba
+
+Wyrażenie nie jest liczbą.
+
+Żeby coś policzyć, używamy is.
+
+\begin{lstlisting}
+?- X = 2+2.
+X = 2+2.
+
+?- X is 2+2.
+X = 4.
+\end{lstlisting}
+\end{frame}
+\subsection{Listy i reguły}
+\begin{frame}[fragile]{Długość listy}
+\begin{columns}
+\begin{column}{.5\linewidth}
+Myśl logicznie!
+
+Długość listy pustej to 0.
+
+Długość listy niepustej to długość ogona + 1.
+
+inaczej
+
+Długość niepustej listy to N + 1 wtedy, gdy długość ogona to N.
+\end{column}
+\begin{column}{.5\linewidth}
+\begin{lstlisting}
+dl([], 0).
+
+dl([_|T], N1) :-
+    dl(T, N),
+    N1 is N+1.
+\end{lstlisting}
+\end{column}
+\end{columns}
+\end{frame}
+\begin{frame}[fragile]{Składnia reguły}
+\begin{columns}
+\begin{column}{.5\linewidth}
+a :- b.
+
+Warunki oddzielamy przecinkiem (i)
+\end{column}
+\begin{column}{.5\linewidth}
+\begin{lstlisting}
+dl([], 0).
+
+dl([_|T], N1) :-
+    dl(T, N),
+    N1 is N+1.
+\end{lstlisting}
+\end{column}
+\end{columns}
+\end{frame}
+\begin{frame}[fragile]{Wersja optymalna z rekursją ogonową}
+\lstinputlisting{zrodla/dlugosc.pl}
+\end{frame}
+\begin{frame}[fragile]{Czas na coś ciekawego}
+\lstinputlisting{zrodla/polacz.pl}
+
+Pytamy o relacje
+
+A co Prolog na to?
+
+\begin{lstlisting}
+?- polacz(X, Y, [a,b,c]).
+\end{lstlisting}
+\end{frame}
+\begin{frame}{Rozwidlanie}
+W programach imperatywnych i funkcyjnych program ,,idzie'' jedną ścieżką.
+
+W Prologu tworzone są równoległe ścieżki.
+
+Na przykład polacz/3.
+\end{frame}
+\section{Ciekawe przykłady}
+\subsection{Listy różnicowe}
+\begin{frame}[fragile]{Definicja}
+Lista różnicowa to lista z odjętym ogonem.
+\begin{lstlisting}
+[a, b, c, d] - [d]
+[a, b, c | X] - X
+\end{lstlisting}
+\begin{enumerate}
+\item Prolog nie ewaluuje, więc nie muszę definiować tego odejmowania
+\item Mam daną listę [a, b, c], ale nie wiem, jaki ogon odejmę - zmienna częścią danej(!)
+\item Te listy daje się (zwykle) łączyć w czasie stałym(!)
+\end{enumerate}
+\end{frame}
+\begin{frame}[fragile]{Łączenie w czasie stałym}
+Lista różnicowa to lista z odjętym ogonem.
+\begin{lstlisting}
+polacz(X-Y, Y-Z, X-Z).
+\end{lstlisting}
+
+Oto CAŁA implementacja.
+
+Prolog cechuje bardzo zwięzły zapis.
+\end{frame}
+\subsection{Programy ,,samouczące się''}
+\begin{frame}{Ciąg Fibonacciego - z definicji}
+\lstinputlisting{zrodla/fib1.pl}
+
+Nieefektywne :(
+\end{frame}
+\begin{frame}{Ciąg Fibonacciego - zapamiętajmy wynik}
+\lstinputlisting{zrodla/fib.pl}
+\end{frame}
+\subsection{Zagadki}
+\begin{frame}{Opis}
+za drem Przemysławem Kobylańskim
+
+Wszyscy mieszkańcy pewnej wyspy są albo rycerzami (ludźmi, którzy nigdy nie kłamią) albo łotrami (ludźmi, którzy kłamią zawsze).
+
+Wędrując po tej wyspie spotykamy trzech tubylców:
+
+Zadaliśmy osobie A pytanie czy jest łotrem czy rycerzem ale ten odpowiedział niewyraźnie i nie zrozumieliśmy jego odpowiedzi.
+
+Pytamy się osobę B co odpowiedział A. B odpowiada nam, że A powiedział o sobie, że jest łotrem.
+
+Słysząc to C mówi: "Nie wierz B! To B jest łotrem!".
+
+Kim są B i C? 
+\end{frame}
+\begin{frame}{Kod}
+\lstinputlisting{zrodla/zagadka.pl}
+\end{frame}
+\begin{frame}[fragile]{Pytanie}
+Pytamy się osobę B co odpowiedział A. B odpowiada nam, że A powiedział o sobie, że jest łotrem.
+
+Słysząc to C mówi: "Nie wierz B! To B jest łotrem!".
+\begin{lstlisting}
+?- powiedzial(B, powiedzial(A, lotr(A))),
+powiedzial(C, lotr(B)).
+\end{lstlisting}
+\end{frame}
+\subsection{Więzy}
+\begin{frame}{Czym są więzy}
+Za pomocą więzów można zapisywać ograniczenia, np.
+\begin{itemize}
+\item A jest pomiędzy 0 i 9
+\item A i B są różne
+\end{itemize}
+
+Przykłady podane za dokumentacją SWI-Prologu
+\end{frame}
+\begin{frame}[fragile]{SEND + MORE = MONEY}
+Pytanie:
+\begin{lstlisting}
+?- puzzle(X + Y = Z), label(X).
+\end{lstlisting}
+\lstinputlisting{zrodla/money.pl}
+\end{frame}
+\begin{frame}{Sudoku}
+\lstinputlisting{zrodla/sudoku.pl}
+\end{frame}
+\begin{frame}{Sudoku - konkretna zagadka}
+\lstinputlisting{zrodla/sudoku-def.pl}
+\end{frame}
+\begin{frame}[fragile]{Sudoku - rozwiązanie}
+\begin{lstlisting}
+?- problem(1, Rows), sudoku(Rows),
+   maplist(writeln, Rows).
+[9, 8, 7, 6, 5, 4, 3, 2, 1]
+[2, 4, 6, 1, 7, 3, 9, 8, 5]
+[3, 5, 1, 9, 2, 8, 7, 4, 6]
+[1, 2, 8, 5, 3, 7, 6, 9, 4]
+[6, 3, 4, 8, 9, 2, 1, 5, 7]
+[7, 9, 5, 4, 6, 1, 8, 3, 2]
+[5, 1, 9, 2, 8, 6, 4, 7, 3]
+[4, 7, 2, 3, 1, 9, 5, 6, 8]
+[8, 6, 3, 7, 4, 5, 2, 1, 9]
+Rows = [[9, 8, 7, 6, 5, 4, 3, 2|...], ... , [...|...]].
+\end{lstlisting}
+\end{frame}
+\subsection{Funkcje anonimowe}
+\begin{frame}{Funkcje anonimowe}
+\lstinputlisting{zrodla/fanon.pl}
+\end{frame}
+\begin{frame}
+\begin{center}
+\begin{Huge}
+Dziękuję za uwagę.
+
+Czas na pytania.
+
+matma6 (tech. Michał Gabor)
+
+matma6.net
+
+matma6@matma6.net
+
+\end{Huge}
+\end{center}
+\end{frame}
+\end{document}

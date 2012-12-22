@@ -1,0 +1,30 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\author{matma6 (tech. Michał Gabor)}
+\title{Skrypt do wykładu o Prologu (Paradygmaty)}
+\begin{document}
+\maketitle
+Przypisy oznaczają nieścisłości bądź dodatkowe informacje – ich zrozumienie nie jest wymagane.
+\section{Jak uruchomić SWI-Prolog}
+Należy zainstalować paczkę z repozytorium lub ze strony. Po instalacji:
+w Windowsie po kliknięciu na ikonę pojawi się REPL
+w innych systemach wywołujemy w terminalu swipl
+\section{Paradygmat logiczny}
+Imperatywnie mówimy o liście instrukcji do wykonania. Weźmy dla przykładu \verb!x += 1! z C. To oznacza wykonanie trzech operacji: wzięcia wartości x, dodania 1 i zapamiętania wyniku pod zmienną x. Innym przykładem może być powszechna w starszych językach instrukcja \verb!goto!. Powoduje ona przeskok do innego miejsca programu. Podobnym zachowaniem są pętle – ciągi instrukcji wykonywane wielokrotnie.
+
+Funkcyjne podejście\footnote{Nie jest to prawdą dla OCamla i Scali, ponieważ nie są to języki czysto funkcyjne. Przykładowo w OCamlu mamy pętle – jest to konstrukcja imperatywna, a nie funkcyjna. Prawdziwie funkcyjnym językiem jest Haskell – wtedy to, co zostało zapisane staje się prawdą. Efekty uboczne, co prawda, istnieją w Haskellu, ale mają czystofunkcyjną postać tzw. monad.} polega na matematycznym podejściu do funkcji. Nie ma tutaj instrukcji. Funkcje nie mają efektów ubocznych, dla tych samych argumentów dają te same wyniki, zaś po ciele funkcji nie można skakać. Mamy wyrażenia z wartością, więc ciężko mówić o skoku – jaki sens ma powiedzenie: proszę mi jeszcze raz obliczyć wartość x?
+
+Paradygmat logiczny opiera się na relacjach. Jak wiemy z matematyki, każda funkcja jest relacją, ale nie każda relacja funkcją. Rozpatrzmy np. relację $\rho$ z wykładu. Ile wynosi „wartość” $\rho$ dla „argumentu” b, czy c? Tak więc relacja jest czymś szerszym niż funkcja.
+
+\section{Fakty}
+W Prologu zapis w kodzie postaci np. \verb+ro(a, b).+ nazywamy faktem. Możemy to rozumieć jako: istotnie a jest w relacji $\rho$ z b. Inny przykład to \verb+rodzice(kasia, jan, zosia).+ – czytamy to jako: rodzicami Kasi są Jan i Zosia.
+
+\section{Komentarze, atomy i zmienne}
+Bardzo ważna w Prologu jest wielkość pierwszej litery. Mała litera oznacza atomy. Są to niepodzielne\footnote{Prolog pozwala rozbić atom na pojedyncze znaki, lecz nie jest to rozbicie semantyczne.} symbole, reprezentujące konkretne obiekty, np. mojego psa, Wojtka (konkretną osobę) czy gatunek świń (niemniej jest to konkretny gatunek). Niepodzielność oznacza niemożliwość rozdzielenia, np. OCamlową listę \verb![1;2;3]! możemy rozbić na głowę i ogon, zaś listę pustą już nie.
+
+Duża pierwsza litera oznacza zmienne, czyli „jakieś” obiekty, np.: jakiś pies, dowolna osoba, jakaś świnia, dowolny gatunek. Przykładowo x w \verb!let f x = (+) List.length x;;! oznacza dowolną listę.
+
+\section{Źródło a REPL}
+Bardzo ważne jest zrozumienie różnicy pomiędzy kodem źródłowym, tj. plikiem z rozszerzeniem \verb+.pl+\footnote{Czasami stosuje się .pro dla odróżnienia od skryptów Perla}. To, co zostaje podane
+\end{document}
