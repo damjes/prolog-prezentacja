@@ -16,10 +16,10 @@ Wszędzie obowiązuje kodowanie UTF-8, koniec wiersza Unix
 Spis treści
 -----------
 Repozytorium zawiera materiały:
-prolog.* - prezentacja
-skrypt/  - skrypt do wykładu
-zrodla/  - źródła programów z wykładu
-inne/    - prywatna kolekcja programów w prologu - zawiera system ekspercki
+ * prolog.* - prezentacja
+ * skrypt/  - skrypt do wykładu
+ * zrodla/  - źródła programów z wykładu
+ * inne/    - prywatna kolekcja programów w prologu - zawiera system ekspercki
 
 Licencja
 --------
