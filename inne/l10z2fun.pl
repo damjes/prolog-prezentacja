@@ -1,3 +1,9 @@
+/* Obliczanie iloczynu na diagonali i diagonali transpozycji macierzy
+Wersja funkcyjna
+
+copyleft by matma6
+*/
+
 odwr([], A, A).
 odwr([H|T], A, W) :-
 	odwr(T, [H|A], W).

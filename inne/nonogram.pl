@@ -1,3 +1,8 @@
+/* Pomoc przy tzw. obrazkach logicznych
+
+copyleft by matma6
+*/
+
 %linia(Pocz, Skladowe, DlWyn, Wynik).
 
 linia(_, [], 0, []).

@@ -1,3 +1,11 @@
+/* Lisp w Prologu
+Nietypowa skladnia list (tj. prologowa)
+zamiast lispowego (cons a b)
+mamy prologowe [cons, a, b]
+
+copyleft by matma6
+*/
+
 forma(defun).
 forma(if).
 forma(setq).

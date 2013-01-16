@@ -1,3 +1,9 @@
+/* Reguly wnioskowania
+Fragment systemu eksperckiego
+
+copyleft by matma6
+*/
+
 :- [wiedza].
 
 :- dynamic wiemy/2.

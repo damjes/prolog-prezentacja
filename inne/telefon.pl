@@ -1,3 +1,8 @@
+/* Kawalek kodu symulujacego telefon rozumiejacy polskie zdania bez odmiany
+
+copyleft by matma6
+*/
+
 %logowanie
 loguj(wyslSms(Odb, Tresc)) :-
 	nl, write('Wysłano SMS pod numer: '), write(Odb),

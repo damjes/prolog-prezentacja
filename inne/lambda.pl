@@ -1,3 +1,8 @@
+/* Rachunek lambda
+
+copyleft by matma6
+*/
+
 eval(s(N, E), s(\(X->Y), I), V) :- %jesli podstawiam to
 	atomic_concat(alphaRed, N, NX),
 	N1 is N+1,

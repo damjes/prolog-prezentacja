@@ -1,3 +1,8 @@
+/* Mutowalne zmienne globalne
+
+copyleft by matma6
+*/
+
 :- dynamic var/2.
 
 unlet(N) :-

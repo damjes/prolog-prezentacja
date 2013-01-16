@@ -1,3 +1,9 @@
+/* Szukanie pierwiastkow wielomianu
+Umie znajdowac pierwiastki rzeczywiste dla wielomianu stopnia < 3
+
+copyleft by matma6
+*/
+
 rozwiaz([0, H|T], X) :-
 	!, rozwiaz([H|T], X).
 rozwiaz([0], r) :- !.

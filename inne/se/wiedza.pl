@@ -1,3 +1,9 @@
+/* Baza wiedzy o jedzeniu
+Fragment systemu eksperckiego
+
+copyleft by matma6
+*/
+
 prefiks(pytanie, 'Czy to danie ').
 prefiks(odpowiedz, 'Przebadane danie to ').
 

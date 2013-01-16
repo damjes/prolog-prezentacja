@@ -1,3 +1,15 @@
+/* Listy leniwe
+Zgodnie z konwencja lispowa:
+cons - rob pare
+car  - wez pierwszy element pary
+cdr  - wez drugi    element pary (i wyznacz go)
+
+np. (dla zwyklych list): (car (cdr '(1 2 3))) to (car '(2 3)) czyli 2
+     - drugi element (glowa ogona)
+
+copyleft by matma6
+*/
+
 car(cons(X, _), X).
 car(nil, nil).
 cdr(cons(_, in(Y, P)), Y) :-

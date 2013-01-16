@@ -1,3 +1,10 @@
+/* Rozwiazywanie rownan typow OCamla
+Potrafi wnioskowac typy po sygnaturkach
+Zamiast zapisywac 'a list mamy list(A)
+
+copyleft by matma6
+*/
+
 sig(flatten, list(list(A)) -> list(A)).
 sig(map, (A -> B) -> list(A) -> list(B)).
 sig(fold_left, (A -> B -> A) -> A -> list(B) -> A).

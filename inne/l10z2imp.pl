@@ -1,3 +1,9 @@
+/* Obliczanie iloczynu na diagonali i diagonali transpozycji macierzy
+Wersja imperatywna (instrukcja for i mutowalna zmienna licznikowa)
+
+copyleft by matma6
+*/
+
 :- [wyrazenia].
 
 for(Od, Do, _, W, W) :-
