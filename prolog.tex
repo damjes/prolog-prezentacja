@@ -11,6 +11,12 @@
 \title{Programowanie logiczne w Prologu}
 \date{21 stycznia 2012 r.}
 \lstset{language=Prolog}
+%to coś dodaje numery slajdów
+\newcommand*\oldmacro{}%
+\let\oldmacro\insertshorttitle%
+\renewcommand*\insertshorttitle{%
+  \oldmacro\hfill%
+  \insertframenumber\,/\,\inserttotalframenumber}
 \begin{document}
 \begin{frame}
 \titlepage
