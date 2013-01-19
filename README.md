@@ -5,8 +5,8 @@ Informacje
 ----------
 Temat: Programowanie logiczne w Prologu
 
-21.01.2013
-7:30 i 9:15
+21.01.2013  
+7:30 i 9:15  
 D-1 29 Politechnika Wrocławska
 
 Kodowanie
