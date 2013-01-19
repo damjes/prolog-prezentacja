@@ -1,12 +1,8 @@
 /* Przeliczanie stopni Celsjusza na Fahrenheita i odwrotnie
- - Metoda wlasna (suma/3, iloczyn/3 i celsFahr)
- - Wiezy na domenach nieprzeliczalnych (liczbach rzeczywistych)
-   (constrCelsFahr/3)
+   Metoda wlasna (suma/3, iloczyn/3 i celsFahr)
 
 copyleft by matma6
 */
-
-:- use_module(library(clpr/nf_r)).
 
 suma(X, Y, Z) :-
 	ground(Y),
@@ -37,9 +33,9 @@ iloczyn(X, Y, Z) :-
 celsFahr(C, F) :-
 	iloczyn(C, 9, U),
 	iloczyn(V, 5, U),
-	suma(V, 32, F).
+	suma(V, 32, F), !.
 
-constrCelsFahr(C, F) :-
-	{C * 9 = U},
-	{V * 5 = U},
-	{V + 32 = F}.
+celsFahr(C, F) :-
+	suma(V, 32, F),
+	iloczyn(V, 5, U),
+	iloczyn(C, 9, U), !.
