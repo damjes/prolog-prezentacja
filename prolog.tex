@@ -17,6 +17,8 @@
 \renewcommand*\insertshorttitle{%
   \oldmacro\hfill%
   \insertframenumber\,/\,\inserttotalframenumber}
+%slajd tytułowy
+\newcommand{\tytul}[1]{\begin{frame}\begin{center}\begin{Huge}#1\end{Huge}\end{center}\end{frame}}
 \begin{document}
 \begin{frame}
 \titlepage
@@ -25,6 +27,7 @@
 \tableofcontents
 \end{frame}
 \section{Co to jest Prolog}
+\tytul{Co to jest Prolog}
 \subsection{Fakty}
 \begin{frame}{Fakty}
 \begin{itemize}
@@ -80,12 +83,13 @@ W GNU/Linuksie pojawia się wtedy polecenie \verb+swipl+.
 \begin{center}
 \includegraphics[height=0.4\textheight]{relacja.png}
 \end{center}
+\uncover<2->{
 Relacja $\rho$ to nie funkcja:
 \begin{description}
-\item[$\rho(a) = e$] ok...
-\item[$\rho(b) = ?$] dwie wartości
-\item[$\rho(c) = ?$] brak wartości
-\end{description}
+\item<3->[$\rho(a) = e$] ok...
+\item<4->[$\rho(b) = ?$] dwie wartości
+\item<5->[$\rho(c) = ?$] brak wartości
+\end{description}}
 \end{frame}
 \begin{frame}[fragile]{W Prologu}
 \begin{lstlisting}
@@ -98,6 +102,7 @@ ro(b, d).
 \lstinputlisting{zrodla/lubi.pl}
 \end{frame}
 \section{Podstawy}
+\tytul{Podstawy}
 \subsection{Składnia}
 \begin{frame}[fragile]{Komentarze, atomy i zmienne}
 \begin{description}
@@ -218,33 +223,29 @@ X = 4.
 \begin{frame}[fragile]{Długość listy}
 \begin{columns}
 \begin{column}{.5\linewidth}
-Myśl logicznie!
-
+\only<1>{
+\begin{block}{Myśl logicznie!}
 Długość listy pustej to 0.
 
 Długość listy niepustej to długość ogona + 1.
-
-inaczej
-
+\begin{center}inaczej\end{center}
 Długość niepustej listy to N + 1 wtedy, gdy długość ogona to N.
-\end{column}
-\begin{column}{.5\linewidth}
-\begin{lstlisting}
-dl([], 0).
+\end{block}
+}
+\only<2>{
+\begin{block}{Składnia reguły}
+wniosek :- warunki.
 
-dl([_|T], N1) :-
-    dl(T, N),
-    N1 is N+1.
-\end{lstlisting}
-\end{column}
-\end{columns}
-\end{frame}
-\begin{frame}[fragile]{Składnia reguły}
-\begin{columns}
-\begin{column}{.5\linewidth}
-a :- b.
+Warunki oddzielamy przecinkiem (oraz)
+\end{block}
+}
+\only<3-4>{
+\begin{block}{Zagadka}
+Co jest nie tak z tym kodem?
 
-Warunki oddzielamy przecinkiem (i)
+\uncover<4>{\alert<4>{Nie ma rekursji ogonowej.}}
+\end{block}
+}
 \end{column}
 \begin{column}{.5\linewidth}
 \begin{lstlisting}
@@ -276,10 +277,12 @@ W programach imperatywnych i funkcyjnych program ,,idzie'' jedną ścieżką.
 
 W Prologu tworzone są równoległe ścieżki.
 
-Na przykład polacz/3.
+%\uncover<2>{Na przykład polacz/3.}
 \end{frame}
 \section{Ciekawe przykłady}
+\tytul{Ciekawe przykłady}
 \subsection{Listy różnicowe}
+\tytul{Listy różnicowe}
 \begin{frame}[fragile]{Definicja}
 Lista różnicowa to lista z odjętym ogonem.
 \begin{lstlisting}
@@ -303,15 +306,17 @@ Oto CAŁA implementacja.
 Prolog cechuje bardzo zwięzły zapis.
 \end{frame}
 \subsection{Programy ,,samouczące się''}
+\tytul{Programy ,,samouczące się''}
 \begin{frame}{Ciąg Fibonacciego - z definicji}
 \lstinputlisting{zrodla/fib1.pl}
 
-Nieefektywne :(
+\uncover<2>{Nieefektywne :(}
 \end{frame}
 \begin{frame}{Ciąg Fibonacciego - zapamiętajmy wynik}
 \lstinputlisting{zrodla/fib.pl}
 \end{frame}
 \subsection{Zagadki}
+\tytul{Zagadki}
 \begin{frame}{Opis}
 \textit{Zagadka pochodzi z ,,Jaki jest tytuł tej książki?'' autorstwa Raymonda Smullyana}
 
@@ -338,9 +343,13 @@ Słysząc to C mówi: "Nie wierz B! To B jest łotrem!".
 \begin{lstlisting}
 ?- powiedzial(B, powiedzial(A, lotr(A))),
 powiedzial(C, lotr(B)).
+
+B = lotr,
+C = rycerz.
 \end{lstlisting}
 \end{frame}
 \subsection{Więzy}
+\tytul{Więzy}
 \begin{frame}{Czym są więzy}
 Za pomocą więzów można zapisywać ograniczenia, np.
 \begin{itemize}
@@ -349,6 +358,18 @@ Za pomocą więzów można zapisywać ograniczenia, np.
 \end{itemize}
 
 Przykłady podane za dokumentacją SWI-Prologu
+\end{frame}
+\begin{frame}{SEND + MORE = MONEY}
+\begin{center}
+\begin{Huge}
+\begin{tabular}{cccccc}
+ &  & S & E & N & D \\ 
++ &  & M & O & R & E \\ 
+\hline 
+ & M & O & N & E & Y \\ 
+\end{tabular}
+\end{Huge} 
+\end{center}
 \end{frame}
 \begin{frame}[fragile]{SEND + MORE = MONEY}
 Pytanie:
@@ -380,8 +401,60 @@ Rows = [[9, 8, 7, 6, 5, 4, 3, 2|...], ... , [...|...]].
 \end{lstlisting}
 \end{frame}
 \subsection{Funkcje anonimowe}
+\tytul{Funkcje anonimowe}
 \begin{frame}{Funkcje anonimowe}
 \lstinputlisting{zrodla/fanon.pl}
+\end{frame}
+\section{Surgunt}
+\tytul{Surgunt}
+\begin{frame}[fragile]{Funkcje anonimowe}
+\begin{lstlisting}
+F = (X -> Y -> do(Z is X+Y) -> Z)
+
+subst([2,3], F, R)
+
+subst([1], F, Incr)
+%Incr = (Y -> do(Z is 1+Y) -> Z)
+\end{lstlisting}
+\end{frame}
+\begin{frame}{Funkcje anonimowe - kod 1/2}
+\lstinputlisting{zrodla/surgunt/anonFun1.pl}
+\end{frame}
+\begin{frame}{Funkcje anonimowe - kod 2/2}
+\lstinputlisting{zrodla/surgunt/anonFun2.pl}
+\end{frame}
+\begin{frame}[fragile]{Predykaty anonimowe}
+\begin{lstlisting}
+%zamiast pisac
+length_(X, L) :- length(L, X).
+?- length(Rows, 3), maplist(length_(3), Rows).
+
+%mozemy napisac:
+%anonPred(kod, interfejs, argument)
+anonPred(length(L, 3), [L], List)
+
+maplist(anonPred(length(L, 3), [L]), Rows)
+
+%zatem dla kazdego wiersza:
+anonPred(length(L, 3), [L], Row)
+\end{lstlisting}
+\end{frame}
+\begin{frame}{Predykaty anonimowe - kod}
+\lstinputlisting{zrodla/surgunt/anonPred.pl}
+\end{frame}
+\begin{frame}[fragile]{Składanie}
+\begin{lstlisting}
+%zamiast pisac
+p1(Input, X1),
+p2(Arg, X1, X2),
+p3(X2, Output)
+
+%piszemy
+compose(Input, [p1, p2(Arg), p3], Output)
+\end{lstlisting}
+\end{frame}
+\begin{frame}{Składanie - kod}
+\lstinputlisting{zrodla/surgunt/compose.pl}
 \end{frame}
 \begin{frame}
 \frametitle{Więcej informacji}
