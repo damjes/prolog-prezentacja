@@ -6,6 +6,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{listings}
+\usepackage{tikz}
 \usepackage{url}
 \author{matma6 (tech. Michał Gabor)}
 \title{Programowanie logiczne w Prologu}
@@ -81,21 +82,32 @@ W GNU/Linuksie pojawia się wtedy polecenie \verb+swipl+.
 \end{frame}
 \begin{frame}{Funkcja a relacja}
 \begin{center}
-\includegraphics[height=0.4\textheight]{relacja.png}
+\begin{tikzpicture}
+\draw (1, 3) -- (4, 3);
+\draw (1, 2) -- (4, 3);
+\draw (1, 2) -- (4, 1);
+\draw (1, 2) ellipse (1 and 2);
+\draw (1, 3) node [fill=white] {a};
+\draw (1, 2) node [fill=white] {b};
+\draw (1, 1) node [fill=white] {c};
+\draw (4, 2) ellipse (1 and 2);
+\draw (4, 3) node [fill=white] {d};
+\draw (4, 1) node [fill=white] {e};
+\end{tikzpicture}
 \end{center}
 \uncover<2->{
 Relacja $\rho$ to nie funkcja:
 \begin{description}
-\item<3->[$\rho(a) = e$] ok...
+\item<3->[$\rho(a) = d$] ok...
 \item<4->[$\rho(b) = ?$] dwie wartości
 \item<5->[$\rho(c) = ?$] brak wartości
 \end{description}}
 \end{frame}
 \begin{frame}[fragile]{W Prologu}
 \begin{lstlisting}
-ro(a, e).
-ro(b, e).
+ro(a, d).
 ro(b, d).
+ro(b, e).
 \end{lstlisting}
 \end{frame}
 \begin{frame}[fragile]{Czas na przykład z życia - sinus :)}
