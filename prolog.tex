@@ -429,6 +429,26 @@ false.
 \end{tikzpicture}
 \end{center}
 \end{frame}
+\begin{frame}[fragile]{Odcięcie}
+\begin{lstlisting}
+?- select(X, [a, b, c], L), select(Y, L, _),
+	     write('Wynik: '), Y = c, !, writeln(X+Y).
+\end{lstlisting}
+\end{frame}
+\begin{frame}{Odcięcie - schemat}
+\begin{center}
+\begin{tikzpicture}
+\draw (4.5, 6) -- (1, 4);
+\draw (4.5, 6) -- (4.5, 4);
+\draw (4.5, 6) -- (8, 4);
+\draw (0, 0) node [fill=white] {fail} -- (0, 2) node [fill=white] {Y = b} -- (1, 4) node [fill= white] {X = a}
+ -- (2, 2) node [fill=white] {Y = c} -- (2, 0) node [fill=white] {a+c sukces!};
+\draw (4.5, 4) node [fill= white] {X = b};
+\draw (8, 4) node [fill= white] {X = c};
+\draw (4, 5) -- (9, 5) node [fill=white] {odcięcie};
+\end{tikzpicture}
+\end{center}
+\end{frame}
 \section{Ciekawe przykłady}
 \tytul{Ciekawe przykłady}
 \subsection{Listy różnicowe}
