@@ -220,12 +220,12 @@ X = f(a, b).
 X = a,
 Y = b.
 
-?- ksiazka(autor(Imie, Nazwisko), RokWyd, Miejs)
-  = ksiazka(autor(jan, kowalski), 2013, wroclaw).
-Imie = jan,
-Nazwisko = kowalski,
-RokWyd = 2013,
-Miejs = wroclaw.
+ksiazka(autor(jan, kowalski), wroclaw, 2013).
+ksiazka(autor(stefan, nowak), warszawa, 1983).
+
+?- ksiazka(_, _, Rok).
+Rok = 2013 ;
+Rok = 1983.
 \end{lstlisting}
 \end{frame}
 \begin{frame}[fragile]{Zmienne a dane}
