@@ -9,7 +9,4 @@ fib(N, X) :-
 	fib(N1, X1),
 	fib(N2, X2),
 	X is X1+X2,
-	!,                  %jedyny sluszny wynik
-	asserta(fib(N, X)). %zapamietaj go
-
-
+	asserta(fib(N, X)). %zapamietaj wynik
