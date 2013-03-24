@@ -239,9 +239,9 @@ Y = a.
 
 %mozliwe termy cykliczne
 
-?- X = x(Y), Y = y(X).
-X = x(y(X)),
-Y = y(X).
+?- X = f(Y), Y = g(X).
+X = f(g(X)),
+Y = g(X).
 \end{lstlisting}
 \end{frame}
 \subsection{Liczby i wyrażenia}
@@ -285,14 +285,14 @@ X = 4.
 \begin{frame}[fragile]{Definicja listy}
 \begin{enumerate}
 \item Lista pusta \verb+[]+ to lista
-\item Para element-lista to lista
+\item Para złożona z elementu i listy to lista
 \end{enumerate}
 
-Jaki operator ,,spina'' listę?
+Jaki symbol ,,spina'' listę?
 
-\only<2>{Podpowiedź: Lisp}
+\uncover<2>{Podpowiedź: A jak jest w Lispie?}
 
-\only<3>{Kropka}
+\uncover<3>{Kropka}
 \end{frame}
 \begin{frame}[fragile]{Listy - przykłady}
 \begin{lstlisting}
@@ -356,7 +356,7 @@ dl([_|T], N1) :-
 \begin{frame}[fragile]{Czas na coś ciekawego}
 \lstinputlisting{zrodla/polacz.pl}
 \begin{lstlisting}
-?- append([a, b], [c, d], X).
+?- polacz([a, b], [c, d], X).
 X = [a, b, c, d].
 \end{lstlisting}
 
